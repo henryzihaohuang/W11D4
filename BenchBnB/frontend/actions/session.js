@@ -1,15 +1,14 @@
 import {postUser,
     createSession, deleteSession
-} from "../utils/session";
+} from "../util/session";
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
-
 export const LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
 
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_ERRORS";
 
 const receiveCurrentUser = user => {
-    debugger
+    // debugger
     return {
     type: RECEIVE_CURRENT_USER,
     user
@@ -26,8 +25,8 @@ const receiveErrors = errors => ({
     errors
 });
 
-export const signup = formUser => dispatch => postUser(formUser).then(user => dispatch(receiveCurrentUser(user)));
+export const signup = formUser => dispatch => postUser(formUser).then(user => dispatch(receiveCurrentUser(user)), (errors) => dispatch(receiveErrors(errors)));
 
-export const login = formUser => dispatch => createSession(formUser).then(user => dispatch(receiveCurrentUser(user)));
+export const login = formUser => dispatch => createSession(formUser).then(user => dispatch(receiveCurrentUser(user)), (errors) => dispatch(receiveErrors(errors)));
 
-export const logout = () => dispatch => deleteSession().then(() => dispatch(logoutCurrentUser()));
+export const logout = () => dispatch => deleteSession().then(() => dispatch(logoutCurrentUser()), (errors) => dispatch(receiveErrors(errors)));
